@@ -46,6 +46,7 @@
   -->
 
   <div class="form-group">
-    <%= submit "Submit", class: "btn btn-primary" %>
+    <span><%= submit "Submit", class: "btn btn-primary" %></span>
+    <span><%= link "List Users", to: user_path(@conn, :index), class: "btn btn-info" %></span>
   </div>
 <% end %>

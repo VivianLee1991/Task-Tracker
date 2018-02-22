@@ -15,11 +15,12 @@
     <div class="container">
 
       <div class="row">
-        <div class="col-3 offset-9">
+        <div class="col-4 offset-8">
           <%= if @current_user do %>
             <p>
-              Logged in as: <%= @current_user.name %> |
-              <%= link "Logged Out", to: "/session", method: :delete %>
+              <span>Logged in as: <%= @current_user.name %></span>
+              <span><%= link "Edit Account", to: user_path(@conn, :edit, @current_user), class: "btn btn-default btn-xs" %></span>
+              <span><%= link "Log Out", to: "/session", method: :delete %></span>
             </p>
           <% else %>
             <p>Not logged in.</p>

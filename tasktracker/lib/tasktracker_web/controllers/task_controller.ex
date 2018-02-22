@@ -39,6 +39,12 @@ defmodule TasktrackerWeb.TaskController do
     render(conn, "edit.html", task: task, changeset: changeset)
   end
 
+  def editbyowner(conn, %{"id" => id}) do
+    task = Work.get_task!(id)
+    changeset = Work.change_task(task)
+    render(conn, "editbyowner.html", task: task, changeset: changeset)
+  end
+
   def update(conn, %{"id" => id, "task" => task_params}) do
     task = Work.get_task!(id)
 

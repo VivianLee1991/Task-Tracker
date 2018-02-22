@@ -74,6 +74,10 @@ defmodule Tasktracker.Work do
 
   """
   def update_task(%Task{} = task, attrs) do
+    #time = attrs[:time_spent]
+    #time = Integer.to_string(15 * (String.to_integer(time) / 15))
+    #attrs = Map.merge(attrs, %{"time_spent" => time})
+
     task
     |> Task.changeset(attrs)
     |> Repo.update()

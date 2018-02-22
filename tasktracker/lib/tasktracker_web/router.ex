@@ -28,6 +28,7 @@ defmodule TasktrackerWeb.Router do
 
     resources "/users", UserController
     resources "/tasks", TaskController
+    get "/tasks/:id/editbyowner", TaskController, :editbyowner
 
     post "/session", SessionController, :create
     delete "/session", SessionController, :delete
