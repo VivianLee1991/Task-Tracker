@@ -5,6 +5,8 @@
     <tr>
       <th>Title</th>
       <th>Description</th>
+      <th>Created by</th>
+      <th>Assigned to</th>
       <th>Time spent</th>
       <th>Is complete</th>
 
@@ -16,6 +18,12 @@
     <tr>
       <td><%= task.title %></td>
       <td><%= task.description %></td>
+      <td><%= task.designer.name %></td>
+      <td><%= if task.owner do %>
+            <%= task.owner.name %>
+          <% else %>
+            <span> </span>
+          <% end %> </td>
       <td><%= task.time_spent %></td>
       <td><%= task.is_complete %></td>
 

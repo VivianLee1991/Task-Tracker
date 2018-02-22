@@ -15,6 +15,9 @@ defmodule TasktrackerWeb.TaskController do
   end
 
   def create(conn, %{"task" => task_params}) do
+    current_user = conn.assigns[:current_user]  # designer of the task
+    task_params = Map.merge(task_params, %{"designer_id" => current_user.id})
+
     case Work.create_task(task_params) do
       {:ok, task} ->
         conn
@@ -43,7 +46,7 @@ defmodule TasktrackerWeb.TaskController do
       {:ok, task} ->
         conn
         |> put_flash(:info, "Task updated successfully.")
-        |> redirect(to: task_path(conn, :show, task))
+        |> redirect(to: page_path(conn, :feed))
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "edit.html", task: task, changeset: changeset)
     end
@@ -55,6 +58,7 @@ defmodule TasktrackerWeb.TaskController do
 
     conn
     |> put_flash(:info, "Task deleted successfully.")
-    |> redirect(to: task_path(conn, :index))
+    |> redirect(to: page_path(conn, :feed))
   end
+
 end
