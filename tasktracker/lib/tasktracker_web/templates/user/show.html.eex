@@ -14,5 +14,8 @@
 
 </ul>
 
-<span><%= link "Edit", to: user_path(@conn, :edit, @user) %></span>
-<span><%= link "Back", to: page_path(@conn, :feed) %></span>
+<%= if @current_user == @user do %>
+  <span><%= link "Back to Feed", to: page_path(@conn, :feed) %></span>
+<% else %>
+  <span><%= link "Log in", to: page_path(@conn, :index) %></span>
+<% end %>

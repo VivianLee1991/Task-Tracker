@@ -6,7 +6,8 @@ defmodule TasktrackerWeb.UserController do
 
   def index(conn, _params) do
     users = Account.list_users()
-    render(conn, "index.html", users: users)
+    current_user = conn.assigns[:current_user]
+    render(conn, "index.html", users: users, current_user: current_user)
   end
 
   def new(conn, _params) do
@@ -27,7 +28,8 @@ defmodule TasktrackerWeb.UserController do
 
   def show(conn, %{"id" => id}) do
     user = Account.get_user!(id)
-    render(conn, "show.html", user: user)
+    current_user = conn.assigns[:current_user]
+    render(conn, "show.html", user: user, current_user: current_user)
   end
 
   def edit(conn, %{"id" => id}) do

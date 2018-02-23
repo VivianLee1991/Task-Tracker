@@ -18,11 +18,14 @@
       <td><%= user.id %></td>
 
       <td class="text-right">
-        <span><%= link "Show", to: user_path(@conn, :show, user), class: "btn btn-default btn-xs" %></span>
+        <%= if @current_user.id == user.id do %>
+          <span><%= link "Edit", to: user_path(@conn, :edit, user) %></span>
+        <% end %>
+        <%= if @current_user.name == "root" and user.name != "root" do %>
+          <span><%= link "Delete", to: user_path(@conn, :delete, user), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
+        <% end %>
       </td>
     </tr>
 <% end %>
   </tbody>
 </table>
-
-<span><%= link "New User", to: user_path(@conn, :new) %></span>
