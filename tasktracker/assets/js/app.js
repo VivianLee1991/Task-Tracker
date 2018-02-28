@@ -21,7 +21,7 @@ import $ from "jquery";
 
 // import socket from "./socket"
 
-function update_buttons() {
+function update_manage_buttons() {
   $('.manage-button').each( (_, bb) => {
     let user_id = $(bb).data('user-id');
     let manage = $(bb).data('manage');
@@ -34,13 +34,34 @@ function update_buttons() {
   });
 }
 
-function set_button(user_id, value) {
+function update_time_buttons() {
+  $('.time_button').each( (_, bb) => {
+    let time_id = $(bb).data('time-id');
+    if (time_id != "") {
+      $(bb).text("Stop Working!");
+    }
+    else {
+      $(bb).text("Start Working!");
+    }
+  })
+}
+
+function set_manage_button(user_id, value) {
   $('.manage-button').each( (_, bb) => {
     if (user_id == $(bb).data('user-id')) {
       $(bb).data('manage', value);
     }
   });
-  update_buttons();
+  update_manage_buttons();
+}
+
+function set_time_button(task_id, value) {
+  $('.time-button').each( (_, bb) => {
+    if (task_id == $(bb).data('task-id')) {
+      $(bb).data('manage-id', value);
+    }
+  });
+  update_time_buttons();
 }
 
 
@@ -57,10 +78,9 @@ function manage(user_id) {
     dataType: "json",
     contentType: "application/json; charset=UTF-8",
     data: text,
-    success: (resp) => { set_button(user_id, resp.data.id); },
+    success: (resp) => { set_manage_button(user_id, resp.data.id); },
   });
 }
-
 
 function unmanage(user_id, manage_id) {
   $.ajax(manage_path + "/" + manage_id, {
@@ -68,7 +88,42 @@ function unmanage(user_id, manage_id) {
     dataType: "json",
     contentType: "application/json; charset=UTF-8",
     data: "",
-    success: () => { set_button(user_id, ""); },
+    success: () => { set_manage_button(user_id, ""); },
+  });
+}
+
+
+function start_working(task_id, cur_time) {
+  let text = JSON.stringify({
+    timeblock: {
+      start: cur_time,
+      end: new Date(0),
+      task_id: task_id
+    },
+  });
+
+  $.ajax(timeblock_path, {
+    method: "post",
+    dataType: "json",
+    contentType: "application/json; charset=UTF-8",
+    data: text,
+    success: (resp) => { set_time_button(task_id, resp.data.id); },
+  });
+}
+
+function stop_working(task_id, time_id, cur_time) {
+  let text = JSON.stringify({
+    timeblock: {
+      end: cur_time,
+    },
+  });
+
+  $.ajax(timeblock_path + "/" + time_id, {
+    method: "patch",
+    dataType: "json",
+    contentType: "application/json; charset=UTF-8",
+    data: text,
+    success: (resp) => { set_time_button(task_id, ""); },
   });
 }
 
@@ -84,14 +139,40 @@ function manage_click(ev) {
   }
 }
 
-function init_manage() {
-  if (!$('.manage-button')) {
-    return;
+function time_click(ev) {
+  let btn = $(ev.target);
+  let task_id = btn.data('task-id');
+  let time_id = btn.data('time-id');
+  const now = new Date();
+
+  if (time_id == "") {
+    start_working(task_id, now);
   }
-
-  $('.manage-button').click(manage_click);
-
-  update_buttons();
+  else {
+    stop_working(task_id, time_id, now);
+  }
 }
 
-$(init_manage);
+
+function init_manage() {
+  if (! $('.manage-button')) {
+    return;
+  }
+  $('.manage-button').click(manage_click);
+  update_manage_buttons();
+}
+
+function init_time() {
+  if (! $('.time-button')) {
+    return;
+  }
+  $('.time-button').click(time_click);
+  update_time_buttons();
+}
+
+function init_all() {
+  init_manage();
+  init_time();
+}
+
+$(init_all);

@@ -1,5 +1,19 @@
+<script>
+  window.timeblock_path = "<%= timeblock_path(@conn, :index) %>";
+</script>
+
 <h2>Edit Task</h2>
 
 <%= render "formbyowner.html", Map.put(assigns, :action, task_path(@conn, :update, @task)) %>
 
-<span><%= link "Back", to: page_path(@conn, :feed) %></span>
+<p><%= link "Back to Feed", to: page_path(@conn, :feed) %></p>
+
+<div class="row">
+  <div class="col align-middle">
+    <button class="time-button btn btn-secondary"
+            data-task-id="<%= @task.id %>"
+            data-time-id="">
+      Start Working!
+    </button>
+  </div>
+</div>

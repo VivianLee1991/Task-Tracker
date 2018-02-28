@@ -3,6 +3,7 @@ defmodule Tasktracker.Work.Task do
   import Ecto.Changeset
   alias Tasktracker.Work.Task
   alias Tasktracker.Account.User
+  alias Tasktracker.Work.Timeblock
 
   schema "tasks" do
     field :description, :string
@@ -11,6 +12,7 @@ defmodule Tasktracker.Work.Task do
     field :title, :string
     belongs_to :designer, User
     belongs_to :owner, User
+    has_many :timeblocks, Timeblock, foreign_key: :task_id
 
     timestamps()
   end
