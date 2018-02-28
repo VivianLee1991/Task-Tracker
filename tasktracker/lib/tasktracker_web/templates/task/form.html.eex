@@ -18,35 +18,13 @@
   </div>
 
   <div class="form-group">
-    <%= label f, :owner_id, class: "control-label" %>
-    <%= text_input f, :owner_id, class: "form-control" %>
-    <%= error_tag f, :owner_id %>
+    <%= label f, :owner_name, class: "control-label" %>
+    <%= text_input f, :owner_name, class: "form-control" %>
+    <%= error_tag f, :owner_name %>
   </div>
-
-  <!--
-  <div class="form-group">
-    <%= label f, :time_spent, class: "control-label" %>
-    <%= number_input f, :time_spent, class: "form-control" %>
-    <%= error_tag f, :time_spent %>
-  </div>
-  -->
-  <!--
-  <div class="form-group">
-    <%= label f, :is_complete, class: "control-label" %>
-    <%= checkbox f, :is_complete, class: "checkbox" %>
-    <%= error_tag f, :is_complete %>
-  </div>
-  -->
-  <!--
-  <div class="form-group">
-    <%= label f, :designer_id, class: "control-label" %>
-    <%= text_input f, :designer_id, class: "form-control" %>
-    <%= error_tag f, :designer_id %>
-  </div>
-  -->
 
   <div class="form-group">
     <span><%= submit "Submit", class: "btn btn-primary" %></span>
-    <span><%= link "List Users", to: user_path(@conn, :index), class: "btn btn-info" %></span>
+    <span><%= link "All Users", to: user_path(@conn, :index), class: "btn btn-info" %></span>
   </div>
 <% end %>

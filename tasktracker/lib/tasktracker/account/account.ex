@@ -44,6 +44,23 @@ defmodule Tasktracker.Account do
     Repo.get_by(User, email: email)
   end
 
+  # by name lookup
+  def get_user_by_name(name) do
+    Repo.get_by(User, name: name)
+  end
+
+  def get_managers(id) do
+    user = get_user(id)
+    user = Repo.preload(user, :managers)
+    user.managers
+  end
+
+  def get_members(id) do
+    user = get_user(id)
+    user = Repo.preload(user, :members)
+    user.members
+  end
+
   @doc """
   Creates a user.
 

@@ -48,6 +48,12 @@
         <% end %>
         </p>
         <p>Description: <%= task.description %></p>
+        <p>Complete? :
+          <%= if task.is_complete do %>
+            Yes
+          <% else %>
+            No
+          <% end %></p>
         <span><%= link "Details", to: task_path(@conn, :show, task), class: "btn btn-default btn-xs" %></span>
         <span><%= link "Edit", to: task_path(@conn, :edit, task), class: "btn btn-default btn-xs" %></span>
         <span><%= link "Delete", to: task_path(@conn, :delete, task), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>

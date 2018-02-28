@@ -7,7 +7,8 @@ defmodule TasktrackerWeb.UserController do
   def index(conn, _params) do
     users = Account.list_users()
     current_user = conn.assigns[:current_user]
-    render(conn, "index.html", users: users, current_user: current_user)
+    manages = Tasktracker.Work.members_map_for(current_user.id)
+    render(conn, "index.html", users: users, current_user: current_user, manages: manages)
   end
 
   def new(conn, _params) do
@@ -35,7 +36,11 @@ defmodule TasktrackerWeb.UserController do
   def edit(conn, %{"id" => id}) do
     user = Account.get_user!(id)
     changeset = Account.change_user(user)
-    render(conn, "edit.html", user: user, changeset: changeset)
+
+    managers = Account.get_managers(id)
+    underlings = Account.get_members(id)
+
+    render(conn, "edit.html", user: user, managers: managers, underlings: underlings, changeset: changeset)
   end
 
   def update(conn, %{"id" => id, "user" => user_params}) do
