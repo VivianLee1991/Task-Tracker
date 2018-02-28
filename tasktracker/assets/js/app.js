@@ -35,15 +35,17 @@ function update_manage_buttons() {
 }
 
 function update_time_buttons() {
-  $('.time_button').each( (_, bb) => {
+  $('.time-button').each( (_, bb) => {
     let time_id = $(bb).data('time-id');
-    if (time_id != "") {
-      $(bb).text("Stop Working!");
+    if (time_id == "") {
+      $(bb).text("START Working!");
+      $(bb).removeClass("btn btn-danger").addClass("btn btn-success");
     }
     else {
-      $(bb).text("Start Working!");
+      $(bb).text("STOP Working!");
+      $(bb).removeClass("btn btn-success").addClass("btn btn-danger");
     }
-  })
+  });
 }
 
 function set_manage_button(user_id, value) {
@@ -58,7 +60,7 @@ function set_manage_button(user_id, value) {
 function set_time_button(task_id, value) {
   $('.time-button').each( (_, bb) => {
     if (task_id == $(bb).data('task-id')) {
-      $(bb).data('manage-id', value);
+      $(bb).data('time-id', value);
     }
   });
   update_time_buttons();
@@ -92,6 +94,34 @@ function unmanage(user_id, manage_id) {
   });
 }
 
+function stop_working(task_id, time_id, cur_time) {
+  let text = JSON.stringify({
+    timeblock: {
+      end: cur_time,
+    },
+  });
+
+  $.ajax(timeblock_path + "/" + time_id, {
+    method: "patch",
+    dataType: "json",
+    contentType: "application/json; charset=UTF-8",
+    data: text,
+    success: () => { set_time_button(task_id, ""); },
+  });
+
+  update_time_period(time_id);
+}
+
+function update_time_period(time_id) {
+  $('.time-block').each( (_, tb) => {
+    if ($(tb).data('time-id') == time_id) {
+      let start = $(tb).find('.time-start').val().getTime();
+      let end = $(tb).find('.time-end').val().getTime();
+      let period = end - start;
+      $(tb).find('.time-period').text(period);
+    }
+  });
+}
 
 function start_working(task_id, cur_time) {
   let text = JSON.stringify({
@@ -111,21 +141,6 @@ function start_working(task_id, cur_time) {
   });
 }
 
-function stop_working(task_id, time_id, cur_time) {
-  let text = JSON.stringify({
-    timeblock: {
-      end: cur_time,
-    },
-  });
-
-  $.ajax(timeblock_path + "/" + time_id, {
-    method: "patch",
-    dataType: "json",
-    contentType: "application/json; charset=UTF-8",
-    data: text,
-    success: (resp) => { set_time_button(task_id, ""); },
-  });
-}
 
 function manage_click(ev) {
   let btn = $(ev.target);

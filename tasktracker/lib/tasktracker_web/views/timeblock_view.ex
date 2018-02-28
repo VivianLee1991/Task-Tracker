@@ -13,6 +13,7 @@ defmodule TasktrackerWeb.TimeblockView do
   def render("timeblock.json", %{timeblock: timeblock}) do
     %{id: timeblock.id,
       start: timeblock.start,
-      end: timeblock.end}
+      end: timeblock.end,
+      task_id: timeblock.task_id}
   end
 end

@@ -8,12 +8,40 @@
 
 <p><%= link "Back to Feed", to: page_path(@conn, :feed) %></p>
 
-<div class="row">
-  <div class="col align-middle">
-    <button class="time-button btn btn-secondary"
+<div class="row p-4">
+  <div class="col-3">
+    <button class="time-button btn btn-success"
             data-task-id="<%= @task.id %>"
             data-time-id="">
       Start Working!
     </button>
   </div>
+</div>
+
+<div class="row">
+  <table class="time-table table">
+    <thead>
+      <tr>
+        <th>Start Time</th>
+        <th>End Time</th>
+        <th>Time Period</th>
+        <th>-<th>
+      </tr>
+    </thead>
+
+    <tbody>
+    <%= for time <- @timeblocks do %>
+      <tr class="time-block"
+          data-time-id="<%= time.id %>">
+        <td class="time-start"><%= time.start %></td>
+        <td class="time-end"><%= time.end %></td>
+        <td class="time-period">
+          Continuing...
+        </td>
+        <td>Edit<td>
+      </tr>
+    <% end %>
+    </tbody>
+
+  </table>
 </div>

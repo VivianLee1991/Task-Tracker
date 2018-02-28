@@ -66,7 +66,12 @@ defmodule TasktrackerWeb.TaskController do
   def editbyowner(conn, %{"id" => id}) do
     task = Work.get_task!(id)
     changeset = Work.change_task(task)
-    render(conn, "editbyowner.html", task: task, changeset: changeset)
+    timeblocks =
+      Work.list_timeblocks()
+      |> Enum.filter(fn(tb) ->
+          tb.task_id == task.id end)
+      |> Enum.reverse
+    render(conn, "editbyowner.html", task: task, timeblocks: timeblocks, changeset: changeset)
   end
 
 
@@ -91,7 +96,7 @@ defmodule TasktrackerWeb.TaskController do
       else
         task_params = Map.delete(task_params, :owner_name)
         task_params = Map.merge(task_params, %{"owner_id" => owner_id})
-        
+
         case Work.update_task(task, task_params) do
           {:ok, task} ->
             conn
