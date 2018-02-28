@@ -2,9 +2,32 @@
 
 New designs:
 
-1. Assign tasks by user name instead of user's id.
+ - Improvement:
+
+  1. Assign tasks by user name instead of user's id.
+  2. Can't assign tasks to an unregistered user.
 
 
+ - New features:
+
+  1. Any user could choose to manage/unmanage many other users (including himself)
+     in the "All Users" page.
+    - A manager can manage many members,
+    - A member can have many managers.
+
+  2. Assign new task
+    - Only a users's manager can assign them a task.
+    - When a manager unmanaged some user, the tasks assigned to this user before
+      will not be deleted, but the manager can not assign new tasks to this user
+      any more.
+    - A manager should assign a task owner when he creates a new task.
+
+  3. Time blocks
+   - In the edit page, a task owner could click "START Working!" button to start
+     recording his working time period, and stop by clicking "STOP Working!".
+   - Refresh the web page, the new time block will be displayed.
+
+--------------------------------------------------------------------------------
 
 Design Considerations:
 
@@ -27,19 +50,7 @@ Design Considerations:
 
 7. Only a "root" user could delete other users, except itself.
 
-
-
-To start your local Phoenix server:
-
-  * Install dependencies with `mix deps.get`
-  * Create and migrate your database with `mix ecto.create && mix ecto.migrate`
-  * Install Node.js dependencies with `cd assets && npm install`
-  * Start Phoenix endpoint with `mix phx.server`
-
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
-
-Ready to run in production? Please [check our deployment guides](http://www.phoenixframework.org/docs/deployment).
-
+--------------------------------------------------------------------------------
 
 Deployment steps on VPS:
 
@@ -75,6 +86,18 @@ Deployment steps on VPS:
 9. $ ./deploy.sh
    $ ./start.sh
 
+--------------------------------------------------------------------------------
+
+   To start your local Phoenix server:
+
+     * Install dependencies with `mix deps.get`
+     * Create and migrate your database with `mix ecto.create && mix ecto.migrate`
+     * Install Node.js dependencies with `cd assets && npm install`
+     * Start Phoenix endpoint with `mix phx.server`
+
+   Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+
+   Ready to run in production? Please [check our deployment guides](http://www.phoenixframework.org/docs/deployment).
 
 ## Learn more
 
